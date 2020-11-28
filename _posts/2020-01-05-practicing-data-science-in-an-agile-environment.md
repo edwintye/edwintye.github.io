@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title:  "Practicing data science in an agile environment"
 date:   2020-01-05 00:00:00 -0000
 categories: posts
