@@ -23,7 +23,12 @@ twitter_username: xsho123
 github_username:  edwintye
 
 # Build settings
+gist:
+  noscript: false
 markdown: kramdown
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
 remote_theme: broccolini/swiss
 theme_color: blue
 plugins:
