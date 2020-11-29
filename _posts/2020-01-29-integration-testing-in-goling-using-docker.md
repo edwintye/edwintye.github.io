@@ -42,7 +42,7 @@ mapping, stop the container, and remove the container as per the interface below
 
 All the methods in the interface are simple wrappers around the SDK’s `Client` and builtin `context` classes.
 The two methods, `initialize` and `getContainerNetworkInfo`, directly mimic the command line operations 
-`docker run` and `docker port respectively. Since there isn’t much rationale to stop but not remove a container for
+`docker run` and `docker port` respectively. Since there isn’t much rationale to stop but not remove a container for
 testing purposes, the two steps have been merged into one method as `stopContainer()` &mdash; replicating the combination
 of the `--rm` flag in `docker run` and `docker stop`.
 
@@ -57,8 +57,8 @@ Github actions, demonstrates the full workflow including the different testing p
 {% gist f0f5b665d5710fa83c20386c37a60d04 golang_actions.yaml %}
 
 The mechanism of choice to separate out the different types of tests is via the build chain. Namely,
-`+build integration at the top of the file is used to flag up the fact that the files contain 
-integration tests and are triggered by tagging such as `go test -tags=integration. Using the docker 
+`+build integration` at the top of the file is used to flag up the fact that the files contain 
+integration tests and are triggered by tagging such as `go test -tags=integration`. Using the docker 
 container inside the tests requires new functions `setUp` and `tearDown`, purely because Golang does not
 offer a clean solution for setting up the tests. Alternatives include initializing the necessary objects in
 `TestMain(m *testing.M)`, increasing the complexity and setup time for simple unit tests, or having
@@ -72,7 +72,7 @@ As much as using build tags separate the different types of test nicely, a rathe
 is that the coverage report requires an additional full run. *Note that if other types of tag exists say,
 E2E, then they should be included as well.*
 
-```shell script
+```bash
 go test -tags=unit,integration -v -covermode=count .
 ```
 
@@ -84,7 +84,7 @@ would be more productive to extract and convert the file
 
 File tagging is not only used in the tests but also the build, the intended purpose in the first place, as
 used in the file `docker.go`. We tag the files meticulously to minimize the main program; build tag provides
-the ability to clearly state the purpose at the file level. Inserting the tag `+build integration ensures
+the ability to clearly state the purpose at the file level. Inserting the tag `+build integration` ensures
 that the default `go build` will not include the `docker.go` file (or any of the dependencies) when 
 compiling the binary.
 
