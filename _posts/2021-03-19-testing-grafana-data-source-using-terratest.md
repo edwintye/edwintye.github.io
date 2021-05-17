@@ -238,7 +238,7 @@ func TestGrafanaDataSource(t *testing.T) {
 The principle here is that we hit the Prometheus api via Grafana and completes a simple integration test.
 Testing for other data sources can be done following a similar pattern where we make a proxy request to the
 destination backend.  Applying the test shown here in CI can be as simply as running the code as is against a
-temporary  environment such as [kind](https://kind.sigs.k8s.io), or require significant change due to
+temporary environment such as [kind](https://kind.sigs.k8s.io), or require significant change due to
 credentials retrieval, shared infrastructure, etc. The golang code above can be found
 [as a gist](https://www.github.com/edwintye/k8s-local-env/main/test/gist/prometheus_grafana_datasource_test.go) and I
 hope you have learnt something today :).
