@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Problem in data science interviews - Part 2"
-date:   2021-05-22 00:00:00 -0000
+date:   2021-05-23 00:00:00 -0000
 categories: posts
 ---
 In the [previous post]({% post_url 2021-05-08-problem-in-data-science-interviews-1 %})
