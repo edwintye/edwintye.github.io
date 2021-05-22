@@ -8,7 +8,7 @@ Over a social event where me and some friends from my PhD days met up, we spent 
 about recruitment, in both direction where we are the interviewer and the interviewee.  During the
 course of our discussion, it was evident that the interview processes do not marry up to the corresponding
 job roles.  I will comment on a few of the issues which I have repeatedly observed in data science interviews &mdash;
-Part 1, programming exercises.
+Part 1, programming exercises. 
 
 ### Interview types
 
@@ -17,11 +17,11 @@ were asked to do a sorting algorithm on a whiteboard where surely time can be be
 A data science interview usually involves a combination of:
 - General background interview
 - HR/competence type questions
+- Technical interviews
+- Some sort of programming task involving Python/R and/or SQL
+- Whiteboard exercises such as case study
 - Interviewing with a future colleague from the business side
 - Presentation
-- Technical interviews
-- Whiteboard exercises such as case study
-- Some sort of programming task involving Python/R and/or SQL
 
 Obviously components such as the HR/competence interview is now baked into every interview process
 and there is no hope of skipping for most people.  The ones I want to focus on are those that the hiring managers
@@ -89,3 +89,9 @@ majority of the data sits in a traditional data warehouse then knowing the diffe
 table is highly desirable.  However if the main source of data has already been transformed to the normalized form
 and sitting in columnar file storage, then the understanding of how `SELECT *` is a lot more costly (money and/or 
 computation resources) than careful columns and dates selection.
+
+---
+[Find Part 2 here]({% post_url 2021-05-23-problem-in-data-science-interviews-2 %})
+where the focus is on technical interviews and whiteboard exercise.
+
+---
