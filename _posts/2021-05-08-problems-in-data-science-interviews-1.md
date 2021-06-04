@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Problem in data science interviews - Part 1"
+title:  "Problems in data science interviews &mdash; Part 1"
 date:   2021-05-08 00:00:00 -0000
 categories: posts
 ---
@@ -91,7 +91,7 @@ and sitting in columnar file storage, then the understanding of how `SELECT *` i
 computation resources) than careful columns and dates selection.
 
 ---
-[Find Part 2 here]({% post_url 2021-05-23-problem-in-data-science-interviews-2 %})
+Find [Part 2 here]({% post_url 2021-05-23-problems-in-data-science-interviews-2 %})
 where the focus is on technical interviews and whiteboard exercise.
 
 ---
