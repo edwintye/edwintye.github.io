@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  "Problem in data science interviews - Part 2"
+title:  "Problems in data science interviews &mdash; Part 2"
 date:   2021-05-23 00:00:00 -0000
 categories: posts
 ---
-In the [previous post]({% post_url 2021-05-08-problem-in-data-science-interviews-1 %})
+In the [previous post]({% post_url 2021-05-08-problems-in-data-science-interviews-1 %})
 I talked about issues with programming exercises, which is a substantial topic in
 its own right.  This post explores some remaining interview types and their potential
 problems.  To start things off, take a moment to think about the purpose of a technical interview.
@@ -66,7 +66,7 @@ and creating slide decks without ever presenting them is (rather depressingly) r
 
 ### Final words
 
-Although this post and the [previous post]({% post_url 2021-05-08-problem-in-data-science-interviews-1 %}) is
+Although this post and the [previous post]({% post_url 2021-05-08-problems-in-data-science-interviews-1 %}) is
 fairly critical of standard interview practice without very concrete solutions.  The reality is
 that as long as the interviewers remain open&ndash;minded without fixating on a script, getting the candidate
 to reveal  their skills, critical thinking, and aptitude should come naturally.  Bear in mind that the candidates
