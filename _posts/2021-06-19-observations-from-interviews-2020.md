@@ -2,7 +2,8 @@
 layout: post
 title:  "Observations from Interviews 2020 edition"
 date:   2021-06-19 00:00:00 -0000
-categories: posts
+categories: process
+tags: team process
 ---
 
 This is a delayed post where I summarized my learnings by doing interviews, on both sides of the table, being

@@ -2,7 +2,8 @@
 layout: post
 title:  "Testing Grafana data source using Terretest"
 date:   2021-03-19 00:00:00 -0000
-categories: posts
+categories: programming
+tags: golang programming testing
 ---
 
 

@@ -2,7 +2,8 @@
 layout: post
 title:  "Buildkit and CI"
 date:   2021-06-05 00:00:00 -0000
-categories: posts
+categories: programming
+tags: programming docker
 ---
 
 After collaborating on a repo on Github that uses buildx, it was slightly shocking to see how fast the

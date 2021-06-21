@@ -2,7 +2,8 @@
 layout: post
 title:  "Integration testing in Golang using docker"
 date:   2020-01-29 00:00:00 -0000
-categories: posts
+categories: programming
+tags: golang docker programming testing
 ---
 
 All the examples and code here are in a [Github repo](https://github.com/edwintye/golang-docker-it-test),

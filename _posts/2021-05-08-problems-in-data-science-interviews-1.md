@@ -2,7 +2,8 @@
 layout: post
 title:  "Problems in data science interviews &mdash; Part 1"
 date:   2021-05-08 00:00:00 -0000
-categories: posts
+categories: process
+tags: team process
 ---
 Over a social event where me and some friends from my PhD days met up, we spent a lot of time talking
 about recruitment, in both direction where we are the interviewer and the interviewee.  During the

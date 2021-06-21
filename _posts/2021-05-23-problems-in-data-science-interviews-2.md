@@ -2,7 +2,8 @@
 layout: post
 title:  "Problems in data science interviews &mdash; Part 2"
 date:   2021-05-23 00:00:00 -0000
-categories: posts
+categories: process
+tags: team process
 ---
 In the [previous post]({% post_url 2021-05-08-problems-in-data-science-interviews-1 %})
 I talked about issues with programming exercises, which is a substantial topic in

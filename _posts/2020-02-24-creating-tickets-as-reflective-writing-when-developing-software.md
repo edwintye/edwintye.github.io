@@ -2,7 +2,8 @@
 layout: post
 title:  "Creating tickets as reflective writing when developing software"
 date:   2020-02-24 00:00:00 -0000
-categories: posts
+categories: process
+tags: process team
 ---
 
 A lot of developers seem to despise tickets, a written up piece of work tracked in some issue tracking tool.
@@ -80,12 +81,12 @@ stability, where communication takes priority.
 How would we encourage such practice? To start, allow the developers walk through their train of thought
 regularly. The most obvious time slot is the daily standup, where we would ditch the
 **"What have you done?" + "What are you going to do?"** type framework to
-**"How do I plan to solve this problem?" + "What I did the solve the problem"**. More concretely,
+**"How do I plan to solve this problem?" + "What I did to solve the problem"**. More concretely,
 
 - Anyone who has finished a ticket should share the learnings and discuss what can be done better or left to do, if any.
 - Write the follow up tickets either together during a standup, or pin it up to be finished later.
 - Review these new tickets with relevant parties, including those outside the immediate team if required.
-- Remaining time time should be used to talk about the current proposed solution for all the items in progress.
+- Remaining time should be used to talk about the current proposed solution for all the items in progress.
 - Write down the proposed solution and realign with team
 
 The biggest struggle with such a new routine is the appearance of “pointing the spotlights at stuff not done well”.

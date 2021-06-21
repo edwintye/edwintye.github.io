@@ -2,7 +2,7 @@
 layout: post
 title:  "Practicing data science in an agile environment"
 date:   2020-01-05 00:00:00 -0000
-categories: posts
+categories: team
 ---
 
 Working as a data scientist, I am faced with the question of "how to hit the next target" almost every day.

@@ -2,7 +2,8 @@
 layout: post
 title:  "Contract testing in CI"
 date:   2021-02-28 00:00:00 -0000
-categories: posts
+categories: programming
+tags: python programming testing
 ---
 
 Repo containing the code can be found in [python-contract-test-demo](https://github.com/edwintye/python-contract-test-demo).
