@@ -13,7 +13,7 @@ to all the time before due to a certain pandemic. This follows on from the serie
 [part 2]({% post_url 2021-05-23-problems-in-data-science-interviews-2 %}) where some
 of the points are repeated here.  I am not really proposing solutions and merely writing down my thoughts.
 
-# Almost no one is prepared for remote interviews
+## Almost no one is prepared for remote interviews
 
 Rather unsurprisingly, companies are not very prepared apart from the telephone interview stage.  Setting up
 a (video) call was hard and tech issues regularly occur.  Hearing people turning off their video to save
@@ -27,7 +27,7 @@ use the tech should be sorted after a year.  Any work place that is still strugg
 after a year is a cause for concern.  Similarly, if employees are facing difficulty then it may also hint
 towards a lack of support and training in the organization.
 
-# Experience in the cloud varies massively
+## Experience in the cloud varies massively
 
 As much as I don't want to use the term "cloud native" as a tag for classifying people, I can't deny the fact that
 growing up with internet makes a difference. A 21 years old (born from the 00 era)
@@ -46,7 +46,7 @@ those who spend their free time upskilling.  The trap continues for those who ha
 An admission of not having the necessary cloud exposure may lead to a decrease in remuneration when changing jobs,
 a risk too great for some.
 
-# Shifts in timeline
+## Shifts in timeline
 
 Average time between interviews greatly increased, with massive gaps between the interview stages.
 This can be good or bad depending on your point of view: spending 3 hours on site more time commitment friendly
@@ -61,7 +61,7 @@ than go through HR/recruiter.  Unfortunately, not everyone will be in favor of a
 of personal touch in the interview process.  Maybe all hiring managers should go through training on having
 difficult conversations, something medical doctors receive as part of their education. 
 
-# Companies need to (decide and) reinvent their selling point
+## Companies need to (decide and) reinvent their selling point
 
 Beer fridge is not that attractive anymore for those who have no desire to go into the office.  However,
 I also know a lot of people who will love to go into the office, see people and do stuff with colleagues.
