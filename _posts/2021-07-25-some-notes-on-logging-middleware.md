@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Some notes on logging middleware"
-date:   2021-06-04 00:00:00 -0000
+date:   2021-07-25 00:00:00 -0000
 categories: programming
 tags: golang programming
 ---
@@ -157,24 +157,43 @@ this is most likely not efficient.
 func HeaderToFields(header http.Header) []zap.Field {
     return []zap.Field{
     	// or with x- prefix, or whatever variants you know exists
-        zap.String("correlation_id", header.Get("correlation-id")),
-        zap.String("request_id", header.Get("request-id")),
-        zap.String("span_id", header.Get("span-id")),
+        zap.String("correlation_id", header.Get("x-correlation-id")),
+        zap.String("request_id", header.Get("x-request-id")),
+        zap.String("span_id", header.Get("<some span id like Uber-Trace-Id>")),
     }
 }
 ```
 
-In most programming languages the instrumentation of tracers will provide a mechanism to log.
-The mechanism provided by tracer agent contains all the necessary information already,
-and the server should be instrumented via the tracer or at least replace the logging middleware
-appropriately.
+In most programming languages the instrumentation of tracers will provide a mechanism to either
+log or add some logging info into the trace. The tracer agent should contain all the necessary
+information already, and the server can be instrumented by having tracers rather than a logging
+middleware. For example, open tracing has a
+[go client](https://github.com/opentracing/opentracing-go) which can be used to extract info
+(from header) and also logs (given span).
+
+```golang
+import (
+    "github.com/opentracing/opentracing-go"
+    "github.com/opentracing/opentracing-go/log"
+)
+// extract the information from header
+spanContext, err := opentracing.GlobalTracer().Extract(
+    opentracing.HTTPHeaders,
+    opentracing.HTTPHeadersCarrier(r.Header),
+)
+// start a span and add some log information
+span = opentracing.StartSpan("some_random_request")
+span.LogFields(
+	log.String("event", "some-ecent"),
+	log.Int64("value", 12321),
+)
+```
 
 Some infrastructure is set up such that tracing is injected via a sidecar acting as a proxy.
 In those cases we have to find out the appropriate headers the application needs to extract.  In
-the ideal scenario your sidecar will conform to open tracing standard, such that we can
-use the [opentracing-go client](https://github.com/opentracing/opentracing-go) to extract
-necessary information.  There should virtually be no differences because the solution still rely
-on context propagation.
+the ideal scenario your sidecar will conform to open tracing standard and pass them on automatically.
+One downside to manual instrumentation is that we can't add extra log info.  Generally speaking
+there should virtually be no differences because the solution still rely on (span) context propagation.
 
 Finally, I should say that my experience of logging middleware is that the usefulness tends to
 zero, especially as maturity with dealing with context develops.  Logs with tracing more than covers
