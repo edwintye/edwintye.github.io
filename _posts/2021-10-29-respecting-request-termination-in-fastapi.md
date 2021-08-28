@@ -94,7 +94,8 @@ the response should be logged/traced by the application/gateway for diagnosis an
 
 If we want to be extra safe, we can always add a timeout to the execution of the tasks. Having a timeout
 ensures that we always cancel the cpu intensive task in the event that the client
-never disconnects!<sup id="b1">[1](#f1)</sup>
+never disconnects[^1]!
+
 ```python
 done, pending = await asyncio.wait([t1, t2], return_when=asyncio.FIRST_COMPLETED, timeout=10000)
 ```
@@ -108,10 +109,5 @@ if the C library recognizes any signal to cancel in the first instance.  The und
 determines the setup required for proper cancellation, with the nuclear option of spinning off in a
 subprocess then force a kill.  If you are running such functions, then good luck, and have fun.
 
----
-**NOTE**
 
-<b id="f1">1</b>  If your gateway does not have a timeout you need to speak to some people.  But it is *never* too
-safe to have a timeout in the server. [↩](#b1)
-
----
+[^1]: If your gateway does not have a timeout you need to speak to some people.  But it is *never* too safe to have a timeout in the server.
