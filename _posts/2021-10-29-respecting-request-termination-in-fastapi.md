@@ -11,11 +11,11 @@ processing the api request even when it has been terminated, e.g. request timed 
 For sure there are cases when this is desirable, especially from the client side if you don't need
 an ack. The issue here is when the requests require the servers to run some resource heavy process,
 and the system performance is tied to the number of concurrent requests.  Our aim is to respect the
-termination signal and react appropriately.
+termination signal and stop all computation accordingly.
 
 Let's assume that we have a cpu intensive process for one of the endpoints, which can be represented
 as the example below with the cpu heavy part replaced by a sleep.  In the event that a client hits the
-endpoint `/no-context` with a timeout less than the sleep (at 3 seconds) then:
+endpoint `/no-context` (code block below) with a timeout less than the sleep (at 3 seconds) then:
 1. The client does not get a response.
 2. Server keeps sleeping until the end.
 3. Server response with a 200 and thinks it has done a great job.
@@ -66,7 +66,7 @@ async def client_disconnected(request: Request) -> bool:
 ```
 
 Next, we need a way to have the "alert" pushed to the request handler.  Probably the simplest way is to
-execute both the main function `cpu_heavy`and this newly created function `client_disconnected` simultaneously
+execute both the main function `cpu_heavy` and this newly created function `client_disconnected` simultaneously
 and see which completes first.  Thankfully we don't need to work out the details because `asyncio.wait`
 already provides this feature out of the box.  The only job we have is to handle the two difference scenarios:
 * The client disconnected.
@@ -88,9 +88,9 @@ async def get_sleep_with_cancel(request: Request) -> Union[Optional[Dict], HTTPE
             return {"msg": "Slept beautifully without Cancel", "success": t2.result()}
 ```
 
-One of the decision paths &mdash; neither task finished &mdash; is not handled above because one of the tasks
-*should* always be done.  The `HTTPException` will also never reach the client. However, the response should be
-logged/traced by the application/gateway for diagnosis and improvement.
+One of the decision paths &mdash; neither task finished &mdash; is not handled above because one (and only one)
+of the tasks *will always be done*.  The `HTTPException` will also never reach the client. However,
+the response should be logged/traced by the application/gateway for diagnosis and improvement.
 
 If we want to be extra safe, we can always add a timeout to the execution of the tasks. Having a timeout
 ensures that we always cancel the cpu intensive task in the event that the client
@@ -110,6 +110,7 @@ subprocess then force a kill.  If you are running such functions, then good luck
 
 ---
 **NOTE**
+
 <b id="f1">1</b>  If your gateway does not have a timeout you need to speak to some people.  But it is *never* too
 safe to have a timeout in the server. [↩](#b1)
 
