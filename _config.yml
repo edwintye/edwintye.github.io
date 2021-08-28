@@ -18,7 +18,7 @@ email: edwintye@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Welcome to monologue central
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://edwintye.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://edwintye.github.io"
 github_repo: edwintye.github.io
 github_username:  edwintye
 social_link: twitter
@@ -31,7 +31,8 @@ markdown: kramdown
 kramdown:
   math_engine: mathjax
   syntax_highlighter: rouge
-remote_theme: broccolini/swiss
+# nearly everything we use here: _layouts/, _sass/, _includes, assets/syntax.css are all from the theme below
+#remote_theme: broccolini/swiss
 theme_color: blue
 plugins:
   - jekyll-feed
