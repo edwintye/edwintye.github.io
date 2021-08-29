@@ -10,3 +10,7 @@ Highlight style is obtained from pygments, emacs style, by generating it from th
 ```bash
 pygmentize -S emacs -f html -a .highlight > _syntax.scss
 ```
+
+Some additional styling includes:
+* Lowering the font size for `h0-mobile` an `h0-desktop`
+* Change the color of the hyperlinks to differentiate them easier
