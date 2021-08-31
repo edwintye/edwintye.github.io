@@ -5,7 +5,7 @@ pre {
     border-left: $spacer-1 solid $color-border;
     margin: $spacer-3 0;
     padding-left: 16px;
-    width: (9 / 12 * 100%); // matches col-9
+    width: (12 / 12 * 100%); // matches col-12
     overflow-x: auto;
 }
 
@@ -15,7 +15,7 @@ code {
     padding: 1px 0px;
 }
 
-
+// div class articleBody which contains the content
 .prose {
 
   a {
@@ -32,7 +32,7 @@ code {
     width: 100%;
 
     @media (min-width: $breakpoint-lg) {
-      width: (10 / 12 * 100%); // matches col-10
+      width: (12 / 12 * 100%); // matches col12
     }
 
   }
@@ -54,7 +54,7 @@ code {
     max-width: 100%;
 
     @media (min-width: $breakpoint-lg) {
-      max-width: (12 / 10 * 100%); // make image fill width of container on desktop
+      max-width: (10 / 12 * 100%); // make image fill width of container on desktop
     }
 
   }
