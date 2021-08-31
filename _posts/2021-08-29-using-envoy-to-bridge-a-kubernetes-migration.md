@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Envoy bridging the migration process"
+title:  "Using Envoy to bridge a kubernetes migration"
 date:   2021-08-29 00:00:00 -0000
 categories: docker programming
 ---
@@ -13,7 +13,7 @@ a csv file as input in VMs to one that serves api inside kubernetes (k8s).
 
 To provide a bit more context, the application simply takes an input &mdash; in the form of a
 csv &mdash; does a whole bunch of stuff then return the result as another csv file.  The input
-files comes from the external customers and the size varies. As there is an inevitable delay with
+files comes from the external customers[^1] and the size varies. As there is an inevitable delay with
 regard to sending and receiving files, most of them has more than 1 row and is processed as a batch
 job. The desire is to move to an api based solution that encourages requests that consist of one
 object only to:
@@ -25,30 +25,27 @@ From a data science point of view, doing A/B testing is definitely the biggest d
 Coupling with a massive drive towards container or even serverless solutions, the nod to migrate
 came through and off we go to the brighter future.
 
-| Existing                        | Future State            |
-| ------------------------------- | ----------------------- |
-| VMs                             | K8s with service mesh   |
-| CSV                             | API                     |
-| Usually batch                   | Singular or batch       |
-| Hard to A/B test                | Dark launch as standard |
-| Turn around on order of minutes | Almost instant response |
-
 ### The path of restructuring
 
-All we have to do is 3 simple steps:
-* Split the service up to have an api.
-* Run the application in parallel in the existing VM and k8s.
+With our future world of k8s + service mesh waiting for us, the first thing is to broadly split
+up the steps required for a migration.  In summary, we have:
+* Split the service up: an api component and a thin wrapper acting as a client to pick up csv file.
+* Run the application live in parallel in the existing VM and k8s.
 * Deprecate the VM and hopefully end the non-sense of sending/receiving csv.
 
-There is an even more conservative approach &mdash; onboard ourselves as the customer, and make
-request to the api on their behalf when they send us a csv file.
+The new api serving application can in theory be running solely in k8s without ever touching a
+VM.  All we need is the thin wrapper client to process the csv and make a request on behalf of a
+customer. However, setting this up can be a bit unnatural depending on the environmental setup and
+how the api gateways are structured.  For simplicity, we duplicate the application for both VM/k8s
+and create a clear separation of concern. 
+
 
 **Splitting the service up**
 
-**Creating the API**
-
-
-[bentoml](https://docs.bentoml.org/en/latest/index.html)
+Depending on how the data science application is created initially, it may have an easier or
+harder time in transitioning from csv to api.  For example, if you use  
+[bentoml](https://docs.bentoml.org)
+then it comes straight out of the box with the correct decorator.
 
 ```python
 @api(input=DataframeInput(), mb_max_latency=200, mb_max_batch_size=1000, batch=True)
@@ -57,13 +54,15 @@ def predict(self, df: pd.DataFrame):
     return self.artifacts.model.predict(df)
 ```
 
-This gives you the ability to run predictions against a csv file directly and reply via an api
-where the payload is a array of (array or) values.  For a customer facing api, it is recommended
-to accept a well&ndash;defined json object rather than arbitrary arrays of numbers for exposition.
+Using `DataframeInput()` gives you the ability to run predictions against a csv file directly
+and reply via an api where the payload is an array (of array) or values. For a customer facing
+api, it is recommended to accept a well&ndash;defined json object rather than arbitrary arrays
+of numbers (which is what `DataframeInput()` allows) for better exposition.
+
 Let's ignore the fact that a migration is one of the best time to rethink how the product should
 work, and we probably want to create an api from scratch.  The simplest approach would be to do
 straight translation from a csv to a json object &mdash; take the csv headers as keys.
-Now our client can be as simple as 
+Now our wrapper client can be as simple as 
 
 ```python
 import pandas, requests
@@ -75,21 +74,23 @@ if __name__ == "__main__":
         # process the result as desired
 ```
 
-and the program triggered by say an AWS Lambda that detects the arrival of a new file.
+where the program can be triggered by say an AWS Lambda that detects the arrival of a new file.
+The application can easily reverse the json back into the desired format.
 Without significant amount of work, we have an api and a corresponding wrapper
 client that is functionally identical, where the api component can be deployed as a
 standalone into k8s.
 
 **In comes the restrictions**
-There are corporations where the whole system is to resist changes. The resistance can come in many forms,
-for us, it is to never change the design of working systems.
+
+There are corporations where the whole system is to resist changes. The resistance can come in many
+forms, for us, it is to never change the design of working systems.
 Allow network connections from the VM to k8s? No.
 Create a new landing area for the csv files? No.
 Allow an additional ingress to the VM to hit the api? No.
 Pretty much everything is a straight no regardless of logic, you get the picture.  The worst part is
 that when we deployed a first iteration of the api into the VM, we forgot to hide our tracks and listen
-only on localhost.  One of the security scanners picked up the open port on the VM and we got an invitation
-to lunch from security.`
+only on localhost.  One of the security scanners picked up the open port on the VM and we got an
+invitation to lunch from security.`
 
 Now we have a new requirement of binding to `127.0.0.1` rather than `0.0.0.0` &mdash; hard coded in and
 never to be touched again.  This restriction effectively renders the docker image useless as
@@ -98,10 +99,11 @@ the k8s health check will not longer pass.  We have two options at this point:
 2. take the easy way out and circumvent the restrictions.
 
 ### Envoy to the rescue
+
 Yes, we took the easy way out after studying how the various service mesh works. Nearly all the service
 mesh that we tried follow the same pattern: inject a sidecar, rewriting the routing, and let the
 sidecar provide all the goodies that we need.  As [Envoy](https://www.envoyproxy.io) apperas to be
-the most common service proxy around and configured via yaml it was an easy choice[^1].  After a bit
+the most common service proxy around and configured via yaml it was an easy choice[^2].  After a bit
 of time, the following yaml was cooked up and ready to be served.
 
 ```yaml
@@ -273,9 +275,12 @@ simply invoke the [openapi generator](https://github.com/OpenAPITools/openapi-ge
 to create the client library and wrap it round with some
 rudimentary python code to read the csv and add request headers.
 
-Parallel run is necessary when there is more than a single customer because they will
-not all move on the same date.  Sunsetting occurs when all the customers has successfully migrated
-for a prolonged period, even though in reality we snapshot the state before their indefinite slumber
-as a precaution.  This is our envoy story, hope you enjoyed it and learnt a thing or two.
+Parallel run is necessary for customers who has yet to move and also provide a fallback option for a
+period of time until all parties are happy.  Sunsetting only occurs when all the customers has successfully
+migrated for a prolonged period, even though in reality we snapshot the state before their indefinite slumber
+as a precaution.
 
-[^1]: Thinking that yaml would be easy was a grave mistake, configuring envoy turned out to be the most time&ndash;consuming part.  The lack of knowledge didn't help.
+This is the end of our envoy story, hope you enjoyed it and learnt a thing or two.
+
+[^1]: We use the word "customer" rather than "client" here to make a distinction because we have our own internal client making requests to the api. 
+[^2]: Thinking that yaml would be easy was a grave mistake, configuring envoy turned out to be the most time&ndash;consuming part.  The lack of knowledge didn't help.
