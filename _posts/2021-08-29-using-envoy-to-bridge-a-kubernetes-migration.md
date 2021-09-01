@@ -17,9 +17,9 @@ files comes from the external customers[^1] and the size varies. As there is an 
 regard to sending and receiving files, most of them has more than 1 row and is processed as a batch
 job. The desire is to move to an api based solution that encourages requests that consist of one
 object only to:
-1. Improve customer experience with faster response.
-2. Easier resource management with the requests even out over time and not batched up.
-3. Better A/B testing, splits at the network/infra rather than application level.
+* Improve customer experience with faster response.
+* Easier resource management with the requests even out over time and not batched up.
+* Better A/B testing, splits at the network/infra rather than application level.
 
 From a data science point of view, doing A/B testing is definitely the biggest driving factor.
 Coupling with a massive drive towards container or even serverless solutions, the nod to migrate
@@ -29,9 +29,9 @@ came through and off we go to the brighter future.
 
 With our future world of k8s + service mesh waiting for us, the first thing is to broadly split
 up the steps required for a migration.  In summary, we have:
-* Split the service up: an api component and a thin wrapper acting as a client to pick up csv file.
-* Run the application live in parallel in the existing VM and k8s.
-* Deprecate the VM and hopefully end the non-sense of sending/receiving csv.
+1. Split the service up: an api component and a thin wrapper acting as a client to pick up csv file.
+2. Run the application live in parallel in the existing VM and k8s.
+3. Deprecate the VM and hopefully end the non-sense of sending/receiving csv.
 
 The new api serving application can in theory be running solely in k8s without ever touching a
 VM.  All we need is the thin wrapper client to process the csv and make a request on behalf of a
@@ -43,7 +43,7 @@ and create a clear separation of concern.
 **Splitting the service up**
 
 Depending on how the data science application is created initially, it may have an easier or
-harder time in transitioning from csv to api.  For example, if you use  
+harder time in transitioning from csv to api.  For example, if you use
 [bentoml](https://docs.bentoml.org)
 then it comes straight out of the box with the correct decorator.
 
@@ -92,7 +92,8 @@ that when we deployed a first iteration of the api into the VM, we forgot to hid
 only on localhost.  One of the security scanners picked up the open port on the VM and we got an
 invitation to lunch from security.`
 
-Now we have a new requirement of binding to `127.0.0.1` rather than `0.0.0.0` &mdash; hard coded in and
+Now we have a new requirement of binding to `127.0.0.1` (localhost) rather than `0.0.0.0` (all interfaces)
+&mdash; hard coded in and
 never to be touched again.  This restriction effectively renders the docker image useless as
 the k8s health check will not longer pass.  We have two options at this point:
 1. Go through the necessary design changes and explaining them to various architects and auditors, 
@@ -238,15 +239,19 @@ completely.
 ### Tracing compatibility
 
 As said previously the future state is a service mesh where tracing is taken care of completely by
-the infrastructure.  In the transition state however, especially during the parallel run phase, we have
-to ensure that the two system can be as identical to each other as possible.  Fortunately, tracing is
+the infrastructure. In the transition state where parallel run happens, we need to ensure
+that the two system can be as identical to each other as possible.  Fortunately, tracing is
 an existing functionality we have via Elastic APM.
 
-Inside the application, we use the interoperability of elastic apm and open tracing to ensure traces
-conforms to W3C specification first.  Then setup envoy to also use W3C format for the main route `backend`,
-denoted as `TRACE_CONTEXT` as seen below, and we sent that to a standalone jaeger instance.  The party
-responsible for handling the tracers is determined by the targeted platform via a feature toggle, i.e. by
-the application itself or performed outside by envoy.
+Inside the application, we use the interoperability of
+[elastic apm and open tracing](https://www.elastic.co/guide/en/apm/get-started/current/opentracing.html)
+to ensure traces
+conforms to W3C specification from the application first.  Then setup envoy to also use W3C format
+for the main route `backend`, denoted as `TRACE_CONTEXT` as seen below, and we sent that to jaeger.
+The party responsible for handling the tracers is determined by the targeted platform
+via a feature toggle, i.e. by the application itself or performed outside by envoy.
+Jaeger is the final collection point for which we can compare the traces during the parallel
+run as our last system sanity check.
 
 ```yaml
 # generate_request_id: true # is this an edge service?
@@ -268,8 +273,8 @@ is useful to uncomment the config for debugging; a local k8s setup usually fails
 environment and requires some extra effort as shown here.
 
 ### Parallel run and sunsetting
-A massive benefit is that we have "dog food" the api, and have in some cases inform our customers
-exactly how we use them internally.  In theory (from my personal perspective), both the build and
+A massive benefit here is that we have "dog food" the api. In some cases we have even informed our customers
+exactly how we use the api internally.  In theory (from my personal perspective), both the build and
 documentation should be shared with the customer verbatim because there isn't any secrets.  We
 simply invoke the [openapi generator](https://github.com/OpenAPITools/openapi-generator)
 to create the client library and wrap it round with some
