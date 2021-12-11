@@ -53,7 +53,7 @@ Now equipped with the ability to spin up a container internally in runtime, we c
 to native go commands throughout the process. We make use of environment variables to carry out the tests
 against the different versions as desired. Verifying the compatibility for a particular version is as easy
 as augmenting the build matrix, here as `[rc, latest, 5.0], with the new tag. The steps in CI, here seen using
-Github actions, demonstrates the full workflow including the different testing phases.
+Github actions, demonstrate the full workflow including the different testing phases.
 
 {% gist f0f5b665d5710fa83c20386c37a60d04 golang_actions.yaml %}
 
@@ -65,7 +65,7 @@ offer a clean solution for setting up the tests. Alternatives include initializi
 `TestMain(m *testing.M)`, increasing the complexity and setup time for simple unit tests, or having
 a `TestMain(m *testing.M)` or each tag/file which is rather error-prone. We find that the simplest
 solution is to consolidate related tests under one function and separate them through
-[subtests](https://blog.golang.org/subtests). A nice side-effect of this construct is that each test has
+[subtests](https://blog.golang.org/subtests). A nice side&ndash;effect of this construct is that each test has
 a clean container to work with; managing the state is comparatively easy as an explicit purge between
 tests is no longer mandatory.
 

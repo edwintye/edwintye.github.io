@@ -31,7 +31,7 @@ With our future world of k8s + service mesh waiting for us, the first thing is t
 up the steps required for a migration.  In summary, we have:
 1. Split the service up: an api component and a thin wrapper acting as a client to pick up csv file.
 2. Run the application live in parallel in the existing VM and k8s.
-3. Deprecate the VM and hopefully end the non-sense of sending/receiving csv.
+3. Deprecate the VM and hopefully end the nonsense of sending/receiving csv.
 
 The new api serving application can in theory be running solely in k8s without ever touching a
 VM.  All we need is the thin wrapper client to process the csv and make a request on behalf of a
@@ -95,7 +95,7 @@ invitation to lunch from security.`
 Now we have a new requirement of binding to `127.0.0.1` (localhost) rather than `0.0.0.0` (all interfaces)
 &mdash; hard coded in and
 never to be touched again.  This restriction effectively renders the docker image useless as
-the k8s health check will not longer pass.  We have two options at this point:
+the k8s health check will no longer pass.  We have two options at this point:
 1. Go through the necessary design changes and explaining them to various architects and auditors, 
 2. take the easy way out and circumvent the restrictions.
 
@@ -181,7 +181,7 @@ deployment to k8s, all we have to do is add the envoy sidecar (alongside the api
 ```
 
 Unfortunately, the application still fails to spin up due to health check failures even when it was successful
-for envoy. We can in theory have the appliactoin health check go through envoy, but that creates another 
+for envoy. We can in theory have the application health check go through envoy, but that creates another 
 problem which we discuss later. Learning from how istio configure the sidecar,
 we introduce another route which forwards the health check to the application.  K8s can now `httpGet` at
 `:15080/app-health/get/<original_path>` for the application health and accurately determine container
@@ -280,7 +280,7 @@ simply invoke the [openapi generator](https://github.com/OpenAPITools/openapi-ge
 to create the client library and wrap it round with some
 rudimentary python code to read the csv and add request headers.
 
-Parallel run is necessary for customers who has yet to move and also provide a fallback option for a
+Parallel run is necessary for customers who have yet to move and also provide a fallback option for a
 period of time until all parties are happy.  Sunsetting only occurs when all the customers has successfully
 migrated for a prolonged period, even though in reality we snapshot the state before their indefinite slumber
 as a precaution.
