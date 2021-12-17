@@ -9,7 +9,7 @@ For anyone who has worked a corporate job with a way too eager security team, th
 lot from just the title.  There is usually some "security policy" in place with various "gates"[^1] that
 an application has to pass before it is considered clean enough for deployment.  Furthermore, a clean
 docker image has a shelf life; everything is good as long as the image does not have a match against
-the vulnerability database. 
+the (constantly changing) vulnerability database. 
 
 The definition of "clean" varies, but is pretty much always based on some combination of
 [SAST](https://en.wikipedia.org/wiki/Static_application_security_testing) and
@@ -26,12 +26,12 @@ a long lead time to deployment.
 ## What is the problem?
 
 First, let's assume that we always scan the docker images when it is pushed to the repository manager via
-SAST.  Then DAST kicks in when it is deployed and running in production.
-Main issue of security policies is that it is hard to cover all three stages &mdash; build, deploy, run time
-&mdash; exacerbated when teams move at a very slow pace.
+SAST.  Then DAST kicks in when it is deployed and running in dev/uat/prod (depending on how brave you are).
+Main issue of security policies is that finding a balance between the three stages &mdash; build, deploy,
+run time &mdash; is hard and exacerbated when teams move at a very slow pace.
 Consider the scenario following two scenarios (that we briefly touched on at the end of
 [last post]({% post_url 2021-12-18-the-nightmare-of-keeping-containers-updated-dependency %})):
-  1. Build the image today and deploy to dev/stage.  Deploy to production a month later.
+  1. Build the image today and deploy to dev/uat.  Deploy to production a month later.
   2. Deployed to production, and application is never updated.
 
 In both cases above, we have a disconnected timeline where new vulnerability may be found.  This is
@@ -40,13 +40,14 @@ over time. The longer we wait between build and deploy, the more likely it will 
 rebuild the image just before deployment. Continuous delivery isn't quite "continuous" anymore if
 the same (security control) gate reappears before deployment.
 
-Same logic applies where a container running in production may become insecure; the log4j shit storm of
-December 2021 taught us that patching should be done on both the image (JVM) and application (library) level[^2].
-There is also the reality where if vulnerabilities are known to be being exploited in the wild, you cannot
-wait.  The time between some vulnerability database is updated, propagated to your server, and a report
-generated to some stakeholder is too slow. Operation teams would have started working before some
-executive understands the severity and required actions. In those situations, we can throw every runbook out
-the window and just have faith in the Ops team with their skills and knowledge[^3].
+[Ranting a little] Same logic applies where a container running in production may become insecure; the
+log4j shit storm of December 2021 taught us that patching should be done on both the image (JVM) and
+application (library) level[^2]. There is also the reality where if vulnerabilities are known to be
+being exploited in the wild, you cannot wait. The time between some vulnerability database is updated,
+propagated to your server, and a report generated to some stakeholder is too slow. Operation teams would
+have started working before some executive understands the severity and required actions. In those
+situations, we can throw every runbook out the window and just have faith in the Ops team with their
+skills and knowledge[^3].
 
 ## When to do security scans?
 
@@ -59,20 +60,23 @@ be done on either the build stage or by the image registry.
 
 Scanning the images in the registry is a nice idea, until someone tries to implement it and realize
 scanning **all the artifacts** is going to require a dedicated cluster.  Remember that I said one
-of the triggers for docker image rebuild it via upstream trigger?  Well, imagine you have an application
+of the triggers for docker image rebuild should be via upstream trigger?  Well, imagine you have an application
 that uses `python:3.9`, a new patch version comes through and we rebuild the image of all 300 tags of
 this application.  Multiply that by all the application you build and use.  Good luck and have fun.
 
 Without doubt there should be a smarter policy, as older tags usually exists for audit purposes only.
-Indeed, a smart repository manager will check if there are actions (pull/push) on the images and can
-purge those that are inactive (dockerhub offer this via subscription).  Combined with some intelligent
-dependency/layer analysis (on duplications), scanning all the images in your image repository may be possible.
-However, flagging a vulnerability for an almost stale image leads to a cry wolf situation and eventually no one
-will pay attentions to the real issues.
+Indeed, a smart repository manager will check if there are (pull/push) actions on the images and can
+purge those that are inactive [dockerhub offer this via subscription].  Combined with some intelligent
+dependency/layer analysis, scanning all the images in your image repository may be possible.
+However, flagging a vulnerability for an almost stale image leads to a cry wolf situation and eventually
+no one will pay attentions to the real issues.
 
 ## Build time scanning
 
-Now our conclusion may be that we just shift left and enforce SAST as part of CI/CD pipeline.
+Now our conclusion may be that we just shift&ndash;left and enforce SAST as part of CI/CD pipeline.
+Combined with the acceptance that there is a higher Ops price to pay for slower moving applications,
+we can at least entertain the idea of maintaining certain security posture for docker images.
+
 The most aggressive setup would be to have scanning in place for every commit in the mainline.
 Generally speaking putting the gate in front of every commit slows down the development a bit too much,
 and totally unreasonable for teams that does trunk based development. A good compromise here is probably
@@ -113,18 +117,18 @@ relaying information onwards.  An error on this level may require a full sweep o
 such fundamental error is not wide&ndash;spread, an extremely costly event.
 
 On the other hand, a security flaw may be traced back to the programming language.  More concretely, the
-brilliant idea of using the most up-to-date JVM backfires and forces you to rollback. Now you have to
-downgrade + rebuild, overwrite the existing image:tag, and redeploy.
-In the ideal scenario where you have the appropriate toolings in place and runs on kubernetes, then you can
-do a mass
+brilliant idea of using the most up&ndash;to&ndash;date JVM backfires and forces you to rollback. Now
+you have to downgrade + rebuild, overwrite the existing image:tag, and redeploy.
+In the ideal scenario where we have the appropriate toolings in place and runs on kubernetes, then a
+fully automated refresh can be performed via a
 [rebase](https://buildpacks.io/docs/concepts/operations/rebase/) on all affected runtime layer,
-and rely on automated reschedule via say a
-[deschudler](https://github.com/kubernetes-sigs/descheduler) using `maxPodLifeTimeSeconds` and
-`imagePullPolicy=Always` for a full&ndash;blown *continuous deployment* process.
+and rely on automated reschedule using
+[deschudler](https://github.com/kubernetes-sigs/descheduler) with `maxPodLifeTimeSeconds` coupled
+with `imagePullPolicy=Always` on the pods.
 
 Hopefully at this point you are a bit more educated about managing docker containers, while also
 being more confused at the same time. Maybe one day we will all figure out how to do this properly and
-maybe have a template to follow. Until then, good luck with your own container journey.
+have a template to follow. Until then, good luck with your own container journey.
 
 ---
 
@@ -136,5 +140,5 @@ maybe have a template to follow. Until then, good luck with your own container j
       languages that can compile to a single binary, like c++ or golang, worst case scenario is to deploy the
       application in a `scratch` image as a vulnerability mitigation strategy.
 
-[^3]: In a nut shell, invest in your Ops team as if they are firefighters.  Regular training, drills, and live
+[^3]: In a nutshell, invest in your Ops team as if they are firefighters.  Regular training, drills, and live
       action when called upon.
