@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The nightmare of keeping containers updated &mdash; Dependency"
-date:   2021-10-08 00:00:00 -0000
+date:   2021-12-18 00:00:00 -0000
 categories: process docker
 ---
 
