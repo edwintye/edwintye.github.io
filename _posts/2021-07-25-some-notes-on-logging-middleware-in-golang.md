@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Some notes on logging middleware"
+title:  "Some notes on logging middleware in golang"
 date:   2021-07-25 00:00:00 -0000
 categories: programming
 tags: golang programming
