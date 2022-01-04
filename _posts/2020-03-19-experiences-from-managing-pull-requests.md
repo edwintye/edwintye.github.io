@@ -108,7 +108,7 @@ indicates a dysfunctional team, because they should always be able to find the t
 t is the whole team’s problem when the master branch fails a build. The fear of merging a PR because it may break
 master should be corrected by improving the CI pipeline with contributions from everyone involved.
 
-In a nutshell, the teams lack the mentality of being a "team. The company structure makes this easy, i.e. when 
+In a nutshell, the teams lack the mentality of being a "team". The company structure makes this easy, i.e. when 
 a team is distributed in general but some members are colocated, then inevitably the level of trust varies
 due to the number of contact hours and types of contacts between team members. Junior developers and those
 not familiar with the codebase reluctant to do code review shows that our culture does not encourage growth
