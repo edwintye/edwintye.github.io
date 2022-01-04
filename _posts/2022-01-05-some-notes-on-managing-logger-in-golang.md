@@ -26,16 +26,16 @@ import (
 
 func divide(x float64, y float64) float64 {
 	if x == 0 {
-	    logger.Println("...")
+		logger.Println("...")
 		return return math.Inf(int(x))
-    } else {
-	    return x / y
-    }
+	} else {
+		return x / y
+	}
 }
 
 func main() {
-    fmt.Println(divide(3, 2))
-    fmt.Println(divide(3, 0))
+	fmt.Println(divide(3, 2))
+	fmt.Println(divide(3, 0))
 }
 ```
 
@@ -80,14 +80,14 @@ defined in `/cmd`.  Problem solved until someone else wants to use your package.
 
 ```golang
 type Calculator struct {
-    logger *log.Logger
+	logger *log.Logger
 }
 
 type calculate interface {
-    Divide(float64, float64) float64
+	Divide(float64, float64) float64
 }
 func (c *Calculator) Divide(x float64, y float64) float64 {
-    // can use c.logger in all the methods
+	// can use c.logger in all the methods
 }
 ```
 
@@ -109,20 +109,21 @@ of `Calculator` to use `logrus.StdLogger` without impacting any existing code an
 users simultaneously.  
 
 One of the downside of using `logrus.StdLogger` here is that now the package *is forced to* import logrus, and
-every user of this package also has an indirect import and polluted the dependency.  Furthermore, we are not
-being explicit about what is actually being used.  More concretely, we should be defining a narrow scope interface
-that contains method we use within the package.  If we only use `Println`, as shown in the `Divide` function, then
-our custom interface would look like
+every user of this package also has an indirect import which pollutes the dependency.  We are also not
+being explicit about what is actually being used, i.e. what happens if either the base log or logrus changes,
+we either have to pin the version of have additional tests in our package to effectively be the "glue code".
+More concretely, we should be defining a narrow scope interface that contains method we use within the package.
+If we only use `Println`, as shown in the `Divide` function, then our custom interface would look like
 
 ```golang
 type Calculator struct {
-    logger StdLogger // uses our custom interface
+	logger StdLogger // uses our custom interface
 }
 
 type StdLogger interface {
-	// redefine the interface of the standard library logger like logrus
-	// but only contain methods used in this library
-    Println(v ...interface{})
+	// redefine the interface of the standard library logger like logrus 
+	// but only contain methods used in this library 
+	Println(v ...interface{})
 }
 ```
 
@@ -168,9 +169,9 @@ initialization of a `Calculator` object.
 ```golang
 import foo.bar/calculator
 func main () {
-	// If we ever want to override the default logger in the package, we can just override it
-	// calculator.Logger = logrus.New()
-    calculator.Divide(3, 2)
-    calculator.Divide(3, 0)
+	// If we ever want to override the default logger in the package, we can just override it 
+	// calculator.Logger = logrus.New() 
+	calculator.Divide(3, 2)
+	calculator.Divide(3, 0)
 }
 ```
