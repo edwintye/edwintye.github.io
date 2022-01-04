@@ -6,14 +6,15 @@ categories: process programming
 ---
 
 Machine learning typically, if not always, require some data preprocessing.  Data filtering and cleaning to
-ensure data quality can happen during runtime or prebuilt via an engineering layer, 
-performed via say a 
+ensure data quality can happen during runtime or prebuilt via an engineering layer. Either can be performed
+via say a
 [scikit-learn pipeline](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html)
-with a transformer and the typical feature building via spark respectively. Quite often there is a choice
-between the two, or even a combination, when moving an ML solution from POC to production.
-Often the choices are driven by what we "can do" given the availability and familiarity of various technology.
+with a transformer or the typical Spark ETL pipeline for complex logics. Quite often there is a choice
+between the two (runtime or prebuilt), or even a combination, when moving an ML solution from POC to production.
+Often the choices are driven by what we "can do" given the availability and familiarity of various tech.
 In other cases, the decision comes down to "just ship it". What we don't usually do is calculate the long
 term operational cost would be, mostly due to the inability of gauging longevity of the ML solution.
+
 Let's ignore how decisions come into play, and here we just focus on the difference and cost between
 having the features generated runtime vs prebuilt, and the associated cost of using prebuilt features
 due to data backfilling.
@@ -116,8 +117,8 @@ Looking at the table above, it is fair to conclude that the cost (time and compl
 is also inheritly different for the two types of data.  For a dataset that has an expiration date like
 the raw data here, a backfill job will process data that is subject to deletion as soon as the job finishes.
 At the same time, the data cleaning logic may be moving very fast when the data quality is low. We certainly
-don't want to be in a situation where the time required for data transformation over the dataset on the same
-magnitude as the iteration of code. 
+don't want to be in a situation where the time required for data transformation over the dataset is on the
+same magnitude as the iteration of code. 
 
 The size of the data changes the cost calculation, in terms of total size as well as percentage that is new.
 We can assume that all the new data can be transformed using the new logic without issue, so if the
@@ -126,11 +127,12 @@ retention period, something like 1 month for covid-19 contact tracing, we may ev
 accept to only backfill *on demand*.  More concretely, we store an identifier in the transformed data such as
 `logic_version=X` to allow the pipeline to determine if it is out-of-date when fetching.  In the event it is
 out-of-date, the pipeline can simply do the transformation on the original data and update/overwrite the
-transformed data with the latest. Depending on the hit rate (percentage of data used within its lifetime) this
-may be more cost effective than a full backfill. In general, a batch job is going to be way more efficient
-than updating individual records.  Furthermore, to allow concurrent scoring we will **never lock** the transformed
-data for read and the same record may receive multiple identical updates/overwrites if those records have been
-requested by multiple pipelines simultaneously.
+transformed data with the latest. Depending on the hit rate (percentage of data used within its lifetime) 
+this may be more cost effective than a full backfill. In general, a batch job is going to be way more efficient
+than updating individual records but if only 1% of the data ever get a hit the batch job will never be worth it.
+Furthermore, to allow concurrent scoring we will **never lock** the transformed data for read and the same
+record may receive multiple identical updates/overwrites if those records have been requested by multiple
+pipelines simultaneously.
 
 ## Best method?
 
@@ -141,10 +143,6 @@ the raw data + official records to uplift the data quality, and suddenly reached
 deemed good enough and moved everyone to another priority task.  So we may never reach a stage where time can be
 spent on analysing the usage pattern and converge to a suitable architecture.  For those who wish or think they
 can make the correct decision without going through many iterations on a new problem, I sincerely wish them luck.
-For reference, the simplistic flowchart of combining data cleaning in runtime and preprocessing may look something
-like the one below.
-
-![combined-solution](/assets/2021-12-23-combined-solution.png)
 
 ---
 
