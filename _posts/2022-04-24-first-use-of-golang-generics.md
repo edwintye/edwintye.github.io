@@ -115,11 +115,11 @@ type Scorer interface {
 }
 
 // now we can use the following switch statement inside *ValidateName[T].Handler
-if s, ok := interface{}(name).(Scorer); ok { s.Score("something") }
+if s, ok := any(name).(Scorer); ok { s.Score("something") }
 ```
 
 for it to be a valid extension for all `Name` type at the time of writing.  Obviously, this is a not
 really a problem because the receiver is parameterized and we can always just set the type in the method
-to `interface{}` like the good old days. We are losing a bit of self&ndash;documentation in
+to `any` (which is an alias for `interface{}`). We are losing a bit of self&ndash;documentation in
 the method signature, but given the improvement in the quality of life generics brings, we can most definitely
 accept a few unintuitive behaviour and start relearning the golang way of working.
