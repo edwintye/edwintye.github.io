@@ -66,7 +66,7 @@ as per the type definition of `ValidateName`.
 ```golang
 import "github.com/gorilla/mux"
 
-func (d *ValidateName[T]) Handler(rw http.ResponseWriter, r *http.Request) {
+func (v *ValidateName[T]) Handler(rw http.ResponseWriter, r *http.Request) {
 	name := new(T)
 	decoder := json.NewDecoder(r.Body)
 	decoder.DisallowUnknownFields()
@@ -74,7 +74,7 @@ func (d *ValidateName[T]) Handler(rw http.ResponseWriter, r *http.Request) {
 		rw.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	if d.validate.Struct(name) != nil {
+	if v.validate.Struct(name) != nil {
 		rw.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -92,8 +92,9 @@ This extensibility allows us not repeat code for different structs; if we need t
 operations for different struct then we can do a reflection via a switch + case and execute the appropriate
 functions.
 
-```
-switch v := any(name).(type) {
+```golang
+// inside *ValidateName[T].Handler
+switch s := any(name).(type) {
     case *ChineseName: // something
     case *EnglishName: // more things
     default: // whatever
@@ -101,17 +102,24 @@ switch v := any(name).(type) {
 ```
 
 One downside that I have discovered so far is the restriction on where you can use types, i.e. for parameterization
-only.  The issue is that we can define an interface of methods for the "type interface".  So if we want to have
+only.  The issue is that we cannot define a (method) interface for the "type interface"; an interface that extends
+`Name` such that the methods of the initialized object of the subtype automatically takes the type constraint and
+propagate to the method using the same subtype.  There is quite an
+[extensive writeup on the initial proposal](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#No-parameterized-methods) and
+and given workarounds for most situations.  Here, if we want to have
 `func (x *Name) Score(y Name) float64 {}` it is not possible because the interface has to be 
 
-```
+```golang
 type Scorer interface {
 	Score(any) float64 // Score(Name) float64 not allowed
 }
+
+// now we can use the following switch statement inside *ValidateName[T].Handler
+if s, ok := interface{}(name).(Scorer); ok { s.Score("something") }
 ```
 
-for it to be a valid extension for all `Name` type.  Obviously, this is a not really a problem because the receiver
-is parameterized and we can always just set the type in the method to `interface{}` in the method like the good
-old days. We are losing a bit of self&ndash;documentation in the method signature, but given the improvement in
-the quality of life generics brings, we can most definitely accept a few unintuitive behaviour and start relearning
-the golang way of working.
+for it to be a valid extension for all `Name` type at the time of writing.  Obviously, this is a not
+really a problem because the receiver is parameterized and we can always just set the type in the method
+to `interface{}` like the good old days. We are losing a bit of self&ndash;documentation in
+the method signature, but given the improvement in the quality of life generics brings, we can most definitely
+accept a few unintuitive behaviour and start relearning the golang way of working.
