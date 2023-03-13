@@ -11,7 +11,7 @@ I can go back to simpler days.  Unfortunately keeping the images at the cutting 
 driven by the motivation of minimizing pain of skip version updates &mdash; require a lot of work.
 I will talk about the various different build + scan strategies to keep containers updated that I
 have seen/use myself.  This is the first post of a two part series, focused on dependencies, and see the
-[next part]({% post_url 2021-12-19-the-nightmare-of-keeping-containers-updated-security %})
+[next part]( {{< ref "2021-12-19-the-nightmare-of-keeping-containers-updated-security" >}} )
 on keeping containers updated from a security perspective.
 
 ## What's in an image?
@@ -72,4 +72,4 @@ established practice (at the time of writing).  Pretty much the sole reason to n
 is that you can't ship the application in a timely manner.  Creating the artifact without shipping may create
 a false sense of security (pun intended) without the appropriate tooling in place. This leads us nicely onto
 the security aspect of docker images in the
-[second part of this series]({% post_url 2021-12-19-the-nightmare-of-keeping-containers-updated-security %}).
+[second part of this series]( {{< ref "2021-12-19-the-nightmare-of-keeping-containers-updated-security" >}} ).

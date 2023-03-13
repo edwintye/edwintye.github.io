@@ -1,10 +1,11 @@
 # Sample workflow for building and deploying a Hugo site to GitHub Pages
+# (Narrator: I think this "sample workflow" as become the "gold standard workflow" lmao)
 name: Deploy Hugo site to Pages
 
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["gh-pages"]
+    branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

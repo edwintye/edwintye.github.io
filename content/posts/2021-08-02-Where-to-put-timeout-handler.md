@@ -18,7 +18,7 @@ knowledge than I have regarding the various components/stages of timeout.
 
 Let's start by setting the scene with some code as shown below.  We have two components:
 a logging middleware which
-[I have writen about previously]({% post_url 2021-07-25-some-notes-on-logging-middleware-in-golang %}), and plays
+[I have writen about previously]( {{< ref "2021-07-25-some-notes-on-logging-middleware-in-golang" >}} ), and plays
 a significant part as we see later.  The `SleepHandler` simply sleeps for 3 seconds before responding.
 Our sole focus from herein is the content of the `getServer()` function, and ways people implement timeouts.
 
