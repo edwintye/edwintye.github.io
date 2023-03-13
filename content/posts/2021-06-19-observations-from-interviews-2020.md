@@ -9,8 +9,8 @@ tags:
 This is a delayed post where I summarized my learnings by doing interviews, on both sides of the table, being
 a candidate as well as being on the panel.  What I learnt in the past year is vastly differently compare
 to all the time before due to a certain pandemic. This follows on from the series problems in data science interview
-[part 1]({% post_url 2021-05-08-problems-in-data-science-interviews-1 %}) and
-[part 2]({% post_url 2021-05-23-problems-in-data-science-interviews-2 %}) where some
+[part 1]( {{< ref "2021-05-08-problems-in-data-science-interviews-1" >}} ) and
+[part 2]( {{< ref "2021-05-23-problems-in-data-science-interviews-2" >}} ) where some
 of the points are repeated here.  I am not really proposing solutions and merely writing down my thoughts.
 
 ## Almost no one is prepared for remote interviews

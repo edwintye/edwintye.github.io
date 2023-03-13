@@ -82,7 +82,7 @@ soon as possible. Consider the current data flow below, and our aim is to move t
 block into the database/data lake territory. More concretely, we just execute the `clean_name` and
 `clean_number` functions at an earlier point before the data touches the model.
 
-![runtime-solution](/assets/2021-12-23-rutnime-solution.png)
+![runtime-solution](/static/images/2021-12-23-rutnime-solution.png)
 
 ## Moving data transformation to the left
 

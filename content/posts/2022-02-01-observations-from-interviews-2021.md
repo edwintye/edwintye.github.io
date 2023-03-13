@@ -5,7 +5,7 @@ tags:
   - process
 ---
 
-Continuation from the [post last year]({% post_url 2021-06-19-observations-from-interviews-2020 %}),
+Continuation from the [post last year]( {{< ref "2021-06-19-observations-from-interviews-2020" >}} ),
 let's go through what I learn this year by doing interviews.
 
 ### Questions for who?

@@ -1,0 +1,20 @@
+baseURL: 'https://edwintye.github.io'
+languageCode: 'en-us'
+title: 'Welcome to monologue central'
+theme: 'hugo-blog-awesome'
+
+# we are going to use the existing robots.txt
+enableRobotsTXT: false
+
+# settings for code highlighting
+markup:
+  highlight:
+    guessSyntax: false
+    noClasses: false
+
+# these are site wide parameters
+params:
+  author: 'Edwin Tye'
+  avatar: 'images/avatar.jpeg'
+  defaultColor: 'dark'
+  dateFormat: '2006-01-02'

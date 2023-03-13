@@ -87,12 +87,12 @@ Finally, data exploration is probably one of the most fun and annoying aspect of
 extremely useful, but a test should be driven by the type of data to be analysed.  If the
 majority of the data sits in a traditional data warehouse then knowing the difference between a
 [fact](https://en.wikipedia.org/wiki/Fact_table) and [dim](https://en.wikipedia.org/wiki/Dimension_(data_warehouse))
-table is highly desirable.  However if the main source of data has already been transformed to the normalized form
+table is highly desirable.  However, if the main source of data has already been transformed to the normalized form
 and sitting in columnar file storage, then the understanding of how `SELECT *` is a lot more costly (money and/or 
 computation resources) than careful columns and dates selection.
 
 ---
-Find [Part 2 here]({% post_url 2021-05-23-problems-in-data-science-interviews-2 %})
+Find [Part 2 here]( {{< ref "2021-05-23-problems-in-data-science-interviews-2" >}})
 where the focus is on technical interviews and whiteboard exercise.
 
 ---

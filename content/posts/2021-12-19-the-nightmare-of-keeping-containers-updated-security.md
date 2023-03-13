@@ -31,7 +31,7 @@ SAST.  Then DAST kicks in when it is deployed and running in dev/uat/prod (depen
 Main issue of security policies is that finding a balance between the three stages &mdash; build, deploy,
 run time &mdash; is hard and exacerbated when teams move at a very slow pace.
 Consider the scenario following two scenarios (that we briefly touched on at the end of
-[last post]({% post_url 2021-12-18-the-nightmare-of-keeping-containers-updated-dependency %})):
+[last post]( {{< ref "2021-12-18-the-nightmare-of-keeping-containers-updated-dependency" >}} ):
   1. Build the image today and deploy to dev/uat.  Deploy to production a month later.
   2. Deployed to production, and application is never updated.
 
@@ -85,7 +85,7 @@ to only enforce scans on release (candidates).  Alternatively a nightly build + 
 can tackle the issues first thing at work can work for certain teams.  For those that uses feature
 branches a scan may be triggered on pull/merge request.  In general, regular rebuild with full OS + 
 library dependencies update
-[as said previously]({% post_url 2021-12-18-the-nightmare-of-keeping-containers-updated-dependency %})
+[as said previously]( {{< ref "2021-12-18-the-nightmare-of-keeping-containers-updated-dependency" >}} )
 will mitigate most if not all the issues.
 
 Full time engineering teams have a different release cadence relative to say open source projects.  My
