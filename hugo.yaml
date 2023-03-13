@@ -1,20 +1,43 @@
 baseURL: 'https://edwintye.github.io'
-languageCode: 'en-us'
-title: 'Welcome to monologue central'
-theme: 'hugo-blog-awesome'
-
-# we are going to use the existing robots.txt
+languageCode: en-us
+title: Welcome to monologue central
+theme: hugo-blog-awesome
 enableRobotsTXT: false
-
-# settings for code highlighting
 markup:
   highlight:
     guessSyntax: false
     noClasses: false
 
-# these are site wide parameters
+menu:
+  main:
+    - pageRef: /
+      name: Home
+      url: /
+      weight: 10
+    - pageRef: posts
+      name: Posts
+      url: /posts/
+      weight: 20
+    - pageRef: about
+      name: About
+      url: /about/
+      weight: 30
+
 params:
-  author: 'Edwin Tye'
-  avatar: 'images/avatar.jpeg'
-  defaultColor: 'dark'
-  dateFormat: '2006-01-02'
+  sitename: Edwin Tye's personal diary
+  defaultColor: dark
+  description: Welcome to monologue central
+  author:
+    avatar: images/avatar.jpeg
+    intro: Just another blog
+    name: Edwin Tye
+    description: >-
+      A dark place for a self proclaimed night owl to document previous work,
+      creating a personal stackoverflow-like knowledge repository
+  socialIcons:
+    - name: github
+      url: 'https://github.com/edwintye'
+    - name: twitter
+      url: 'https://twitter.com/xsho123'
+    - name: Rss
+      url: index.xml
