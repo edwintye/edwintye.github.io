@@ -82,7 +82,7 @@ soon as possible. Consider the current data flow below, and our aim is to move t
 block into the database/data lake territory. More concretely, we just execute the `clean_name` and
 `clean_number` functions at an earlier point before the data touches the model.
 
-![runtime-solution](/images/2021-12-23-rutnime-solution.png)
+![runtime-solution](/static/images/2021-12-23-rutnime-solution.png)
 
 ## Moving data transformation to the left
 
@@ -135,11 +135,6 @@ than updating individual records but if only 1% of the data ever get a hit the b
 Furthermore, to allow concurrent scoring we will **never lock** the transformed data for read and the same
 record may receive multiple identical updates/overwrites if those records have been requested by multiple
 pipelines simultaneously.
-
-A combined solution that leverages pre-built batch jobs and runtime calculation may look something like
-below, which evidently require a lot of coordination and infrastructure to make work.
-
-![combined-solution](/images/2021-12-23-combined-solution.png)
 
 ## Best method?
 
