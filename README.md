@@ -1,16 +1,24 @@
-### Jekyll Theme
+### Hugo setup
 
-The theme used here is 100% based on [broccolini/swiss](https://github.com/broccolini/swiss)
-with additional code highlighting via [_syntax.scss](/_sass/_syntax.scss).  This is achieved by
-coping: _layouts/, _sass/, _includes, and assets/syntax.css here then editing the various
-themes to include the `_syntax.scss` file.
+The theme used here is the [hugo-blog-awesome](https://github.com/hugo-sid/hugo-blog-awesome) via a submodule
+&mdash; the theme setup (at the time of writing) installation instructions uses a standard `git clone` but
+importing this as a submodule is highly recommended as per the hugo official guide. 
 
-Highlight style is obtained from pygments, emacs style, by generating it from the source as per below.
-
-```bash
-pygmentize -S emacs -f html -a .highlight > _syntax.scss
+```shell
+git submodule add https://github.com/hugo-sid/hugo-blog-awesome.git themes/hugo-blog-awesome
 ```
 
-Some additional styling includes:
-* Lowering the font size for `h0-mobile` an `h0-desktop`
-* Change the color of the hyperlinks to differentiate them easier
+However, our `.github/workflows/hugo.yaml` differs from the official guide in that we our `Checkout` action
+is set to a shallow clone only.
+
+```yaml
+with:
+  fetch-depth: 0
+```
+
+Highlight style is obtained from `hugo gen` and changed from `emacs` to `onedark` because there is some
+compatibility issue between the `emacs` syntax highlight and the theme. 
+
+```bash
+hugo gen chromastyles --style=onedark > assets/code-highlight.css
+```
