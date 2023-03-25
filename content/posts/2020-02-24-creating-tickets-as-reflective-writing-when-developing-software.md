@@ -14,7 +14,7 @@ the oversight of the PO because the PO is the closest contact with customers/sta
 information is usually due to insufficient tagging and organization, as context should be obtainable through the
 board, epic it belongs to, and the linked tickets.
 
-![ticket-types](/static/images/2020-02-24-ticket-types.png)
+![ticket-types](/images/2020-02-24-ticket-types.png)
 
 ### What is the real problem here?
 
