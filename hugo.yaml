@@ -33,11 +33,9 @@ params:
     name: Edwin Tye
     description: >-
       A dark place for a self proclaimed night owl to document previous work,
-      creating a personal stackoverflow-like knowledge repository
+      creating a personal stackoverflow-like knowledge repository for the future me.
   socialIcons:
     - name: github
       url: 'https://github.com/edwintye'
-    - name: twitter
-      url: 'https://twitter.com/xsho123'
     - name: Rss
       url: index.xml

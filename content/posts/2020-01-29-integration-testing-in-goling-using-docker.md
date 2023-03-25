@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Integration testing in Golang using docker"
 date: 2020-01-29
 tags:

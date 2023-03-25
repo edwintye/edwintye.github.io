@@ -1,6 +1,6 @@
 ---
 title: "Auto tagging commits"
-date: 2022-08-15 00:00:00 -0000
+date: 2022-08-15
 tags:
   - process
 ---
@@ -42,7 +42,7 @@ of the tag includes all the commit messages since the last tag with a newline at
 as long as parallel builds on the same commit is disabled. Alternatively, you can choose to only push on main
 rather than feature branches.
 
-For local development and a (OMZ)[https://ohmyz.sh/] user myself (with the git plugin), I also have also added the alias which combines
+For local development and a [OMZ](https://ohmyz.sh/) user myself (with the git plugin), I also have also added the alias which combines
 the create tag line above and the push of the tag as `gpt`.
 
 ```shell

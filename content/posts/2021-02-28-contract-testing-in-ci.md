@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Contract testing in CI"
 date: 2021-02-28
 tags:
