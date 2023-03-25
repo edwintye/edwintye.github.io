@@ -82,7 +82,42 @@ soon as possible. Consider the current data flow below, and our aim is to move t
 block into the database/data lake territory. More concretely, we just execute the `clean_name` and
 `clean_number` functions at an earlier point before the data touches the model.
 
-![runtime-solution](/images/2021-12-23-rutnime-solution.png)
+```goat
+      ┌──────────────┐
+      │              │
+      │              │
+      │   Raw Data   │
+      │              │
+      │              │
+      └──────┬───────┘
+             │
+  ┌──────────┼───────────────────────────────────────────┐      ┌─────────────────────────────────────────────────────────┐
+  │          │                                           │      │                                                         │
+  │    ┌─────▼────────┐             ┌──────────────┐     │      │    ┌──────────────────────────┐                         │
+  │    │              │             │              │     │      │    │                          │     ┌───────────────┐   │
+  │    │              │             │              │     │      │    │                          │     │               │   │
+  │    │              │             │              │     │      │    │   Data transformation    │     │               │   │
+  │    │     ODS      ├─────────────►  Data Join   ├─────┼──────┼────►                          │     │               │   │
+  │    │              │             │              │     │      │    │   and feature build      ├─────►    ML Model   │   │
+  │    │              │             │              │     │      │    │                          │     │               │   │
+  │    │              │             │              │     │      │    │                          │     │               │   │
+  │    └──────────────┘             └──────▲───────┘     │      │    │                          │     │               │   │
+  │                                        │             │      │    │                          │     └───────────────┘   │
+  │                                        │             │      │    └──────────────────────────┘ Model pipeline          │
+  │                                        │             │      │                                                         │
+  │    ┌──────────────┐                    │             │      └─────────────────────────────────────────────────────────┘
+  │    │              │                    │             │
+  │    │              │                    │             │
+  │    │   Official   │                    │             │
+  │    │              ├────────────────────┘             │
+  │    │   records    │                                  │
+  │    │              │                                  │
+  │    │              │                                  │
+  │    └──────────────┘      Database/Data lake          │
+  │                                                      │
+  │                                                      │
+  └──────────────────────────────────────────────────────┘
+```
 
 ## Moving data transformation to the left
 
@@ -139,7 +174,55 @@ pipelines simultaneously.
 A combined solution that leverages pre-built batch jobs and runtime calculation may look something like
 below, which evidently require a lot of coordination and infrastructure to make work.
 
-![combined-solution](/images/2021-12-23-combined-solution.png)
+```goat
+           ┌──────────────┐
+           │              │
+           │              │
+           │   Raw Data   │
+           │              │
+           │              │
+           └──────┬───────┘
+                  │
+       ┌──────────┼───────────────────────────────────────────┐      ┌─────────────────────────────────────────────────────────┐
+       │          │                                           │      │                                                         │
+       │    ┌─────▼────────┐             ┌──────────────┐     │      │    ┌──────────────────────────┐                         │
+       │    │              │             │              │     │      │    │                          │     ┌───────────────┐   │
+       │    │              │             │              │     │      │    │                          │     │               │   │
+       │    │              │             │              │     │      │    │   Data transformation    │     │               │   │
+       │    │     ODS      ├─────────────►  Data Join   ├─────┼──────┼────►                          │     │               │   │
+       │    │              │             │              │     │      │    │   for raw and delta      ├─────►    ML Model   │   │
+       │    │              │             │              │     │      │    │                          │     │               │   │
+       │    │              │             │              │     │      │    │   update feature         │     │               │   │
+       │    └──────────────┘             └──────▲───────┘     │      │    │                          │     │               │   │
+       │                                        │             │      │    │                          │     └───────────────┘   │
+       │                                        │             │      │    └──────────────────────────┘ Model pipeline          │
+       │                                        │             │      │                                                         │
+       │    ┌──────────────┐             ┌──────┴───────┐     │      └─────────────────────────────────────────────────────────┘
+       │    │              │             │              │     │
+       │    │              │             │              │     │
+       │    │   Official   │ Update delta│   Clean      │     │
+       │    │              ├─────────────►              │     │
+       │    │   records    │             │   data       │     │
+       │    │              │             │              │     │
+       │    │              │             │              │     │
+       │    └─────▲────────┘             └──────────────┘     │
+       │          │               Database/Data lake          │
+       │          │                                           │
+       └──────────┼───────────────────────────────────────────┘
+                  │
+                  │Cron or trigger based
+                  │
+            ┌─────┴────────┐
+            │              │
+            │              │
+            │   Backfill   │
+            │              │
+            │   jobs       │
+            │              │
+            │              │
+            └──────────────┘
+
+```
 
 ## Best method?
 

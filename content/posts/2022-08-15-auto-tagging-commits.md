@@ -1,6 +1,6 @@
 ---
 title: "Auto tagging commits"
-date: 2022-08-15 00:00:00 -0000
+date: 2022-08-15
 tags:
   - process
 ---
