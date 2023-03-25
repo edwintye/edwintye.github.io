@@ -7,7 +7,7 @@ tags:
   - team
 ---
 
-![new-pull-request](/static/images/2020-03-19-new-pull-request.png)
+![new-pull-request](/images/2020-03-19-new-pull-request.png)
 
 One of the ongoing conversations I have at work is whether we need Pull Request (PR) and how to improve the
 current process given that PR is mandated for all our repositories. Here, I talk about how we previously and
