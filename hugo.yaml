@@ -1,41 +1,30 @@
 baseURL: 'https://edwintye.github.io'
 languageCode: en-us
 title: Welcome to monologue central
-theme: hugo-blog-awesome
-enableRobotsTXT: false
-markup:
-  highlight:
-    guessSyntax: false
-    noClasses: false
-
-menu:
-  main:
-    - pageRef: /
-      name: Home
-      url: /
-      weight: 10
-    - pageRef: posts
-      name: Posts
-      url: /posts/
-      weight: 20
-    - pageRef: about
-      name: About
-      url: /about/
-      weight: 30
+theme: hugo-book
+enableRobotsTXT: true
+enableGitInfo: true
 
 params:
-  sitename: Edwin Tye's personal diary
-  defaultColor: dark
-  description: Welcome to monologue central
-  author:
-    avatar: images/avatar.jpeg
-    intro: Just another blog
-    name: Edwin Tye
-    description: >-
-      A dark place for a self proclaimed night owl to document previous work,
-      creating a personal stackoverflow-like knowledge repository for the future me.
-  socialIcons:
-    - name: github
-      url: 'https://github.com/edwintye'
-    - name: Rss
-      url: index.xml
+  BookTheme: auto
+  BookToC: true
+  BookSection: posts
+  BookDateFormat: '2006-01-02'
+  #BookRepo: 'https://github.com/edwintye/edwintye.github.io'
+  #BookCommitPath: 'commit'
+
+markup:
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: false
+    hl_Lines: ""
+    hl_inline: false
+    lineAnchors: ""
+    lineNoStart: 1
+    lineNos: false
+    lineNumbersInTable: true
+    noClasses: true
+    noHl: false
+    style: dracula
+    tabWidth: 4

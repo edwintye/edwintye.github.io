@@ -5,10 +5,11 @@ tags:
 - programming
 ---
 
+## Initial Journey
 After many months of procrastinating I have finally made the leap and move this page to [hugo](https://gohugo.io).
 The primary reason of moving is that I am must more comfortable with the use of hugo as I am a golang developer
 and also had to use it at work. Generally speaking, organizations are less likely to use jekyll for their
-documentation/blog. Even so the switch from one markdown rendereing framework to another is mnior, the additional
+documentation/blog. Even so the switch from one markdown rendering framework to another is minor, the additional
 cost is unnecessary for those who publish their blog entry for both work and personal site simultaneously. The
 is also the dependency on github, who very kindly manages a lot of steps for us but also introduces extra
 friction.  For example:
@@ -24,7 +25,7 @@ The full migration process were much simpler than anticipated as the hugo docume
 github pages were very comprehensive.  My steps were as follows:
 1. Selecting a new theme from hugo - I actually watched Kris Nóva publish her site live on twitch and decided to
    replicate by following her steps and repo (and of course some copy and paste).
-2. Add the theme via `.gitmodules`.
+2. Add the theme via `.gitmodules` &mdash; `git submodule add <git repo of theme> themes`
 3. Selecting an acceptable syntax highlighting via css using `hugo gen chromastyles`.  A list of examples
    can be found [here](https://xyproto.github.io/splash/docs/all.html).
 4. Move all the `.md` files to the correct locations and consolidate categories and tags into just tags.
@@ -42,3 +43,12 @@ github pages were very comprehensive.  My steps were as follows:
 
 That is it, and what you see now is the new version. Now that I have finished the move there will be no excuses
 and more posts will be coming soon.
+
+## Update
+Turns out I have used quite a number of shortcodes for code blocks which helps with the navigation of posts
+by quite a fair bit. In summary:
+* Moved to [hugo-book](https://github.com/alex-shpak/hugo-book) theme instead.
+* Updated the syntax highlight style to `dracula` and native rendering rather than some custom edited highlight
+  with `onedark` as base.
+* Moved `robots.txt` to `/layouts` and be generated for each page during build time via templating.
+* Added `/layouts/index.html` which just redirects to `<url>/posts`.
