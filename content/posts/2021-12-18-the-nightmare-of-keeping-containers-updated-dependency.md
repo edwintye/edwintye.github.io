@@ -31,7 +31,7 @@ reduces our problem down to only the build image and application. Quite often th
 some ability to troubleshoot and will have the application ship with multiple runtime images: `scratch`
 for the smallest footprint, and a slim version for debugging. Whether we want to maintain
 dedicated `Dockerfile` or delegate some responsibilities via 
-[buildpack](buildpack.io), the same issues remain.  Without loss of generality, we can say
+[buildpack](https://buildpacks.io), the same issues remain.  Without loss of generality, we can say
 that all 3 components can be categorized into two types of dependencies:
   * Programming language version. 
   * Import package/library version.
