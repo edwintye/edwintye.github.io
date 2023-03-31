@@ -154,6 +154,8 @@ on a live kubernetes cluster.
 if ! kubectl apply --dry-run -f "$${EXAMPLES_DIR}/$${example}/rendered"; then exit 1; fi; 
 ```
 
+---
+
 [^1]: Probably the minimum supported version so that when the support for older kubernetes is fully deprecated
       diffs will be generated automatically.
 
