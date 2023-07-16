@@ -104,7 +104,7 @@ the k8s health check will no longer pass.  We have two options at this point:
 
 Yes, we took the easy way out after studying how the various service mesh works. Nearly all the service
 mesh that we tried follow the same pattern: inject a sidecar, rewriting the routing, and let the
-sidecar provide all the goodies that we need.  As [Envoy](https://www.envoyproxy.io) apperas to be
+sidecar provide all the goodies that we need.  As [Envoy](https://www.envoyproxy.io) appears to be
 the most common service proxy around and configured via yaml it was an easy choice[^2].  After a bit
 of time, the following yaml was cooked up and ready to be served.
 

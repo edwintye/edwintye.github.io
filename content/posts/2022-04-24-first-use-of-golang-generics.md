@@ -10,7 +10,7 @@ The biggest feature that golang1.18 introduced for me was [generics](https://go.
 For me who first started programming in Java where we see the likes of `ArrayList<T>` and `HashMap<T,T>`
 everywhere, the lack of generics always seemed unnatural.  Luckily for me, it wasn't hard to find a codebase to
 test out generics out in the wild.  More concretely, we have a situation where we have a service where we validate
-the name given for many locale. For example, an Engilsh name and a (romanized) Chinese name consist of different
+the name given for many locale. For example, an English name and a (romanized) Chinese name consist of different
 components and often ordered differently, which let's assume can be broken down as below.
 
 ```golang
