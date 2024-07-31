@@ -214,9 +214,9 @@ pyroscope.scrape "otel_settings" {
 
 Applying all of the above during and upgrade to `v0.101.0` of the opentelemetry collector contrib where the loadbalancing exporter gain a massive improvements, straight diff:
 
-![profile-diff](/images/2024-07-30-profile-diff-101.png.png)
+![profile-diff](/images/2024-07-30-profile-diff-101.png)
 
-and when focused on the `mergeTrace` function where the upgrade took place
+and when focused on the `mergeTraces` function where the upgrade took place
 
 ![merge-traces](/images/2024-07-30-merge-traces-diff-101.png)
 
