@@ -28,3 +28,7 @@ markup:
     noHl: false
     style: dracula
     tabWidth: 4
+
+module:
+  imports:
+    - path: 'github.com/alex-shpak/hugo-book'
