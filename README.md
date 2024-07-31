@@ -8,7 +8,7 @@ importing this as a submodule is highly recommended as per the hugo official gui
 git submodule add https://github.com/alex-shpak/hugo-book.git themes/hugo-book
 ```
 
-However, our `.github/workflows/hugo.yaml` differs from the official guide in that we our `Checkout` action
+However, our `.github/workflows/hugo.yaml` differs from the official guide in that our `Checkout` action
 is set to a shallow clone only.
 
 ```yaml

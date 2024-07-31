@@ -7,7 +7,7 @@ tags:
 ---
 
 One of the best thing about kubernetes, and especially gitops, is that we can re-use the same definitely
-across many different environment and clusters via very simple yaml manipulation. Howver, it is also true
+across many different environment and clusters via very simple yaml manipulation. However, it is also true
 that editing yaml en-masse is not fun and automation is highly desirable. Most people will eventually turn
 to `yq`, and at the same time be slightly stuck on the syntax. So I am just out here documenting a few
 of the most used commands in my normal work.
