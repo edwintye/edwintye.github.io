@@ -63,7 +63,7 @@ Now we have a collector running, all we got to do is setup pyroscope to be in ["
 The snippets of the pyroscope setup here forms the basis of our standard production upgrade where we begin continuous profiling 30 minutes before a change and ends 30 minutes after the change (be it a success or rollback).
 The general flow is pretty self-explanatory for anyone who is familiar with how Prometheus scrape works, as this is essentially the same but for profiles instead of metrics.
 
-```river
+```alloy
 // Pod discovery, can also do service discovery.
 discovery.kubernetes "pods" {
     role = "pod"
@@ -153,7 +153,7 @@ discovery.relabel "otel" {
 
 then we define the backend which we want to ship to
 
-```river
+```alloy
 pyroscope.write "backend" {
   endpoint {
       url = env("PYROSCOPE_URL")
@@ -167,7 +167,7 @@ pyroscope.write "backend" {
 
 and finally we define the pipeline which chains all the stages `discovery` -> `relabel` -> `scrape` -> `export`.
 
-```river
+```alloy
 pyroscope.scrape "otel_settings" {
     targets    = discovery.relabel.otel.output
     forward_to = [pyroscope.write.backend.receiver]
