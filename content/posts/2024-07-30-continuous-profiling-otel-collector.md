@@ -45,7 +45,8 @@ spec:
     exporters:
       debug: {}
     extensions:
-      pprof: {}
+      pprof:
+        endpoint: :1777
     service:
       extensions: [pprof]
       pipelines:
@@ -168,7 +169,7 @@ and finally we define the pipeline which chains all the stages `discovery` -> `r
 
 ```river
 pyroscope.scrape "otel_settings" {
-    targets    = [discovery.relabel.otel]
+    targets    = discovery.relabel.otel.output
     forward_to = [pyroscope.write.backend.receiver]
     profiling_config {
         profile.goroutine {
