@@ -1,0 +1,14 @@
+{{ define "main" }}
+{{ .Content }}
+{{ range site.RegularPages.ByDate.Reverse | first 5 }}
+<article class="markdown book-post">
+    <h2>
+        <a href="{{ .RelPermalink }}">{{ partial "docs/title.html" . }}</a>
+    </h2>
+    {{ partial "docs/post-meta" . }}
+    <div class="book-post-content">
+        {{- .Summary -}}
+    </div>
+</article>
+{{ end }}
+{{ end }}
