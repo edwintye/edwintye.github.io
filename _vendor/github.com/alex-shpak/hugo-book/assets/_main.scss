@@ -2,6 +2,7 @@ html {
   font-size: $font-size-base;
   scroll-behavior: smooth;
   touch-action: manipulation;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -9,29 +10,27 @@ body {
   color: var(--body-font-color);
   background: var(--body-background);
 
-  letter-spacing: 0.33px;
   font-weight: $body-font-weight;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  box-sizing: border-box;
-  * {
-    box-sizing: inherit;
-  }
 }
 
 h1,
 h2,
 h3,
 h4,
-h5 {
+h5,
+h6 {
   font-weight: $body-font-weight;
 }
 
 a {
   text-decoration: none;
-  color: var(--color-link);
+
+  &[href] {
+    color: var(--color-link);
+  }
 }
 
 img {
@@ -48,11 +47,11 @@ aside nav ul {
   list-style: none;
 
   li {
-    margin: 1em 0;
     position: relative;
   }
 
-  a {
+  a, span {
+    padding: .5em 0;
     display: block;
   }
 
@@ -83,6 +82,18 @@ ul.pagination {
 
 .book-icon {
   filter: var(--icon-filter);
+}
+
+a .book-icon {
+  height: 1em;
+  width: 1em;
+
+  &:first-child {
+    margin-inline-end: $padding-8;
+  }
+  &:last-child {
+    margin-inline-start: $padding-8;
+  }
 }
 
 .book-brand {
@@ -129,10 +140,12 @@ ul.pagination {
 
   input.toggle + label::after {
     content: "▸";
+    align-self: center;
+    transition: transform 0.1s ease-in-out;
   }
 
   input.toggle:checked + label::after {
-    content: "▾";
+    transform: rotate(90deg);
   }
 }
 
@@ -143,12 +156,12 @@ body[dir="rtl"] .book-menu {
   }
 
   input.toggle:checked + label::after {
-    content: "▾";
+    transform: rotate(-90deg);
   }
 }
 
 .book-section-flat {
-  margin: $padding-16 * 2 0;
+  margin: $padding-16 0;
 
   > a,
   > span,
@@ -168,7 +181,17 @@ body[dir="rtl"] .book-menu {
 }
 
 .book-post {
-  margin-bottom: $padding-16 * 3;
+  margin-bottom: $padding-16 * 4;
+
+  .book-post-date img {
+    height: 1em;
+    width: 1em;
+    margin-inline-end: .5em;
+  }
+
+  .book-post-content > :first-child {
+    margin-top: $padding-16;
+  }
 }
 
 .book-header {
@@ -179,15 +202,37 @@ body[dir="rtl"] .book-menu {
     line-height: 0;
   }
 
+  h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 $padding-16;
+  }
+
   img.book-icon {
     height: 1.5em;
     width: 1.5em;
   }
+
+  > ul {
+    margin: 0;
+    padding: 0 $padding-16;
+    display: flex;
+    gap: $padding-16;
+    justify-content: end;
+
+    li {
+      display: inline-block;
+    }
+  }
+}
+
+.book-kind-home .book-header {
+  display: block;
 }
 
 .book-search {
   position: relative;
-  margin: $padding-16 0;
+  margin: $padding-8 0;
   border-bottom: 1px solid transparent;
 
   input {
@@ -221,6 +266,10 @@ body[dir="rtl"] .book-menu {
     @include spin(1s);
   }
 
+  ul a {
+    padding-bottom: 0;
+  }
+
   small {
     opacity: 0.5;
   }
@@ -251,10 +300,8 @@ body[dir="rtl"] .book-menu {
   padding-top: $padding-16;
   font-size: $font-size-14;
 
-  img {
-    height: 1em;
-    width: 1em;
-    margin-inline-end: $padding-8;
+  a {
+    margin: $padding-8 0;
   }
 }
 
@@ -263,12 +310,10 @@ body[dir="rtl"] .book-menu {
 }
 
 .book-languages {
-  margin-block-end: $padding-16 * 2;
+  margin-bottom: $padding-16;
 
-  .book-icon {
-    height: 1em;
-    width: 1em;
-    margin-inline-end: .5em;
+  span {
+    padding: 0;
   }
 
   ul {
@@ -296,7 +341,6 @@ body[dir="rtl"] .book-menu {
   .book-menu {
     visibility: hidden;
     margin-inline-start: -$menu-width;
-    font-size: $font-size-base;
     z-index: 1;
   }
 
