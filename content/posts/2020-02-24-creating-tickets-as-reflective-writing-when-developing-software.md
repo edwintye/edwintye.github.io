@@ -58,10 +58,10 @@ demonstrate, a ticket that is created after analyzing the work completed may loo
 
 > There is a known future performance and stability issue as the database connection is created
 > each time due to a lack of time for refinement in feature/ABC-123. Some of the known solutions include
->changing from creating new connection to using a connection pool in <some random place>, and make use
->of transactions without auto-commit in<another random place>. The difficulty is that we lack the guarantee
->of thread safety for the database object because the current design is to initialize the object once and
->passed onto the various functions as an argument.
+> changing from creating new connection to using a connection pool in \<some random place\>, and make use
+> of transactions without auto-commit in \<another random place\>. The difficulty is that we lack the guarantee
+> of thread safety for the database object because the current design is to initialize the object once and
+> passed onto the various functions as an argument.
 
 The motivation behind this ticket is rather obvious; a sacrifice was made to use the simplest solution
 with the least number lines of code so that it would just work. Here, the potential problem is not being
