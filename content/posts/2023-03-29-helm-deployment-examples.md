@@ -94,7 +94,7 @@ of the sub-chart as well (details collapsed below). Unless the dependencies has 
 repo (no, we are not going to argue about this here), an addition `helm dependency build` is required
 before `helm template`.
 
-{{< details "Additional block for helm dependencies" >}}
+{{% details "Additional block for helm dependencies" %}}
 ```makefile
 			SUBCHARTS_DIR=$${EXAMPLES_DIR}/$${example}/rendered/${CHART_NAME}/charts; \
             SUBCHARTS=$$(find $${SUBCHARTS_DIR} -type d -maxdepth 1 -mindepth 1 -exec basename \{\} \;); \
@@ -103,7 +103,7 @@ before `helm template`.
             	mv $${SUBCHARTS_DIR}/$${subchart}/templates/* "$${EXAMPLES_DIR}/$${example}/rendered/$${subchart}"; \
             done; \
 ```
-{{< /details >}}
+{{% /details %}}
 
 The final helm chart repo committed to git would therefore look something like (or without the dependency
 under `charts/`)

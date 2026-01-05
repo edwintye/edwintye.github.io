@@ -101,16 +101,16 @@ simply writing the config to a file for the next stage of testing if we truly wa
 
 {{< tabs >}}
 
-{{< tab "Raw yaml" >}}
+{{% tab "Raw yaml" %}}
 ```go
 func TestWriteConfigToFile(t *testing.T) {
 	err = os.WriteFile("config.yaml", []byte(otelcol.Spec.Config), 0644)
     require.NoError(t, err)
 }
 ```
-{{< /tab >}}
+{{% /tab %}}
 
-{{< tab "ConfigMap" >}}
+{{% tab "ConfigMap" %}}
 ```go
 func TestWriteConfigMapToFile(t *testing.T) {
     cm := corev1.ConfigMap{
@@ -128,7 +128,7 @@ func TestWriteConfigMapToFile(t *testing.T) {
 }
 
 ```
-{{< /tab >}}
+{{% /tab %}}
 
 {{< /tabs >}}
 

@@ -31,7 +31,7 @@ collector binary, we have the code block collapsed as it is ~~rather trivial~~ q
 The snippet below can be summarized as: Run the application against the config we want to test with a timeout
 as kill signal.
 
-{{< details "Running application in test" >}}
+{{% details "Running application in test" %}}
 ```go
 func TestOpenTelemetryCollectorConfig(t *testing.T) {
 	// we create the factories with all the receivers/processors/connector/exporters that we
@@ -77,7 +77,7 @@ func TestOpenTelemetryCollectorConfig(t *testing.T) {
 	}
 }
 ```
-{{< /details >}}
+{{% /details %}}
 
 Note that the snippet above is incomplete and require additional functions
 [newDefaultConfigProviderSettings](https://github.com/open-telemetry/opentelemetry-collector/blob/v0.72.0/otelcol/configprovider.go#L120)
@@ -95,25 +95,25 @@ cumbersome unless the developers are well versed in golang.
 
 {{< tabs >}}
 
-{{< tab "Manual skip" >}}
+{{% tab "Manual skip" %}}
 ```go
 // let's say we want to skip part of the test due to a known reason
 if testing.Short() {
 	t.Skip("skipping test in short/local mode due to inability to find k8s metadata")
 }
 ```
-{{< /tab >}}
+{{% /tab %}}
 
-{{< tab "Autodetect" >}}
+{{% tab "Autodetect" %}}
 ```go
 // or we can autodetect certain required information and skip if required 
 if os.Getenv("KUBERNETES_SERVICE_HOST") != "" || os.Getenv("KUBERNETES_SERVICE_PORT") != "" {
 	break; // or do some changes
 }
 ```
-{{< /tab >}}
+{{% /tab %}}
 
-{{< tab "Processor manipulation" >}}
+{{% tab "Processor manipulation" %}}
 ```go
 // remove the problematic processor from the pipeline just in the test
 // can easily expand this to a list of processors and will be left as an exercise for the readers 
@@ -126,7 +126,7 @@ for i, v := range conf.Service.Pipelines[component.NewID("traces")].Processors {
 // removing the processor from the pipeline
 conf.Service.Pipelines[component.NewID("traces")].Processors = append(conf.Service.Pipelines[component.NewID("traces")].Processors[:indexToRemove], conf.Service.Pipelines[component.NewID("traces")].Processors[indexToRemove+1:]...)
 ```
-{{< /tab >}}
+{{% /tab %}}
 
 {{< /tabs >}}
 
