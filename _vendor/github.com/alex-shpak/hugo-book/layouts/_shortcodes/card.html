@@ -1,20 +1,20 @@
-{{- /* remove whitespace */ -}}
-{{- if .Get "href" -}}
-<a class="book-card{{ with .Get "class" }} {{ . }}{{ end }}"{{ with .Get "href" }} href="{{ . | relURL }}"{{ end }}>
-{{- template "book-card-content" . -}}
-</a>
+{{- with .Get "href" -}}
+{{- $destination := partial "docs/links/portable-link" (dict "Page" $.Page "Destination" .) -}}
+<div class="book-card{{ with $.Get "class" }} {{ . }}{{ end }}"><a href="{{ $destination | safeURL }}">
+{{- template "book-card-content" $ -}}
+</a></div>
 {{- else -}}
 <div class="book-card{{ with .Get "class" }} {{ . }}{{ end }}">
-{{- template "book-card-content" . -}}
+{{- template "book-card-content" $ -}}
 </div>
 {{- end -}}
 
 {{- define "book-card-content" -}}
 {{- with .Get "image" -}}
-  <img src="{{ . | urls.RelLangURL }}" />
-{{- end }}
+  {{- $destination := partial "docs/links/portable-image" (dict "Page" $.Page "Destination" .) -}}
+  <img src="{{ $destination | safeURL }}" alt="{{ partial "docs/text/i18n" ($.Get "alt" ) }}" />
+  {{- end -}}
   <div class="markdown-inner">
-  {{ with .InnerDeindent }}{{ . }}{{ end }}
+{{ with .Inner }}{{ . }}{{ end -}}
   </div>
 {{- end -}}
-{{- /* remove whitespace */ -}}

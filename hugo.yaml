@@ -28,6 +28,9 @@ markup:
     noHl: false
     style: dracula
     tabWidth: 4
+  goldmark:
+    renderer:
+      unsafe: true
 
 module:
   imports:

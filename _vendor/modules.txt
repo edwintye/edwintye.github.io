@@ -1,1 +1,1 @@
-# github.com/alex-shpak/hugo-book v0.0.0-20250825215546-29f739c9e01d
+# github.com/alex-shpak/hugo-book v0.0.0-20251118074854-b7f9c8cb0f51
