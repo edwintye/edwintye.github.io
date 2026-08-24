@@ -16,10 +16,10 @@ on:
 permissions:
   contents: read
 
-# Allow one concurrent deployment
+# Allow one concurrent deployment, cancel PR runs when newer commits are pushed
 concurrency:
-  group: "pages"
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 # Default to bash
 defaults:
