@@ -42,6 +42,15 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+      - name: Cache Hugo resources
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/hugo_cache
+            resources
+          key: ${{ runner.os }}-hugo-${{ hashFiles('**/go.sum', 'hugo.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-hugo-
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
