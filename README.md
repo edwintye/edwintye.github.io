@@ -1,17 +1,26 @@
 ### Hugo setup
 
-The theme used here is the [hugo-book](https://github.com/alex-shpak/hugo-book) via a submodule
-&mdash; the theme setup (at the time of writing) installation instructions uses a standard `git clone` but
-importing this as a submodule is highly recommended as per the hugo official guide. 
+The theme used here is the [hugo-book](https://github.com/alex-shpak/hugo-book) via hugo modules
+&mdash; and is vendored to ensure build consistency.
+This can be changed in `hugo.yaml` and then run
 
 ```shell
-git submodule add https://github.com/alex-shpak/hugo-book.git themes/hugo-book
+hugo mod get -u
+hugo mod vendor
 ```
 
-However, our `.github/workflows/hugo.yaml` differs from the official guide in that our `Checkout` action
-is set to a shallow clone only.
+To test the build locally,
 
-```yaml
-with:
-  fetch-depth: 0
+```shell
+hugo build
+hugo --gc --minify
+```
+
+or to serve the website
+
+```shell
+hugo server
+# other common flags
+# -D : build drafts
+# -F : build future dated pages
 ```
