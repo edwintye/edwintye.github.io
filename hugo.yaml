@@ -4,6 +4,7 @@ title: Welcome to monologue central
 theme: hugo-book
 enableRobotsTXT: true
 enableGitInfo: true
+relativeURLs: true
 
 params:
   BookTheme: auto
