@@ -1,10 +1,12 @@
 {{- $ratio := (split (.Get "ratio") ":") -}}
+{{- $id := partial "docs/text/shortcode-id" . -}}
 {{- if strings.Contains .InnerDeindent "<--->" -}}
-{{- warnf "Columns shortcode separator '<--->' is deprecated, use markdown list instead." -}}
+{{- warnf "{{<columns>}} shortcode separator '<--->' is deprecated, use markdown list instead." -}}
 {{- $attributes := partial "docs/text/mapper" (dict
   "attributes" (cond .IsNamedParams .Params dict)
   "merge" (dict
     "class" (slice "book-columns" "flex" "flex-wrap")
+    "id" (printf "book-columns-%d" $id)
   )
 ) -}}
 <div {{ partial "docs/html-attrs" $attributes | safeHTMLAttr }}>
@@ -16,15 +18,19 @@
 {{- end -}}
 </div>
 {{- else -}}
-{{- if .Get "ratio" -}}<style>{{- range $index, $grow := $ratio -}}
-  .book-columns-{{ $.Ordinal }}>ul>li:nth-child({{ $index | add 1 }}){
-    flex-grow: {{ default 1 $grow }};
-  }
-{{- end -}}</style>{{- end -}}
+{{- if .Get "ratio" -}}
+<style>{{- range $index, $grow := $ratio -}}
+#book-columns-{{ $id }}>ul>li:nth-child({{ $index | add 1 }}) {
+  flex-grow: {{ default 1 $grow }};
+}
+{{ end -}}
+</style>
+{{- end -}}
 {{- $attributes := partial "docs/text/mapper" (dict
   "attributes" (cond .IsNamedParams .Params dict)
   "merge" (dict
     "class" (slice "book-columns")
+    "id" (printf "book-columns-%d" $id)
   )
 ) -}}
 <div {{ partial "docs/html-attrs" $attributes | safeHTMLAttr }}>
