@@ -15,3 +15,17 @@ is set to a shallow clone only.
 with:
   fetch-depth: 0
 ```
+
+### Renovate local run
+
+Validate configuration syntax:
+
+```shell
+renovate-config-validator .github/renovate.json5
+```
+
+Perform a dry run locally to inspect matches and upstream versions:
+
+```shell
+LOG_LEVEL=debug renovate --platform=local --dry-run=full
+```
